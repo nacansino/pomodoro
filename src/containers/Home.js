@@ -18,7 +18,7 @@ class Home extends Component {
     const {classes} = this.props;
     return (
       <div className={classes.root}>
-
+        <Button variant="contained" color="primary">Hello World</Button>
       </div>
     );
   }
