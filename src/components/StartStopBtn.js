@@ -15,13 +15,13 @@ class StartStopBtn extends Component {
     if (classes.isRunning) {
       return (
         <div>
-            <Button variant="contained" color="secondary">Stop</Button>
+            <Button variant="contained" color="secondary"  onClick={this.props.onClick}>Stop</Button>
         </div>
       );
     } else {
       return (
         <div>
-            <Button variant="contained" color="primary">Start</Button>
+            <Button variant="contained" color="primary" onClick={this.props.onClick}>Start</Button>
         </div>
       );
     }

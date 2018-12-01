@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import TimerBox from '../components/TimerBox'
 
-import { withStyles } from '@material-ui/core/styles';
 
-const sprintTime=[25,5];
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = {
   root: {
@@ -21,11 +20,9 @@ const styles = {
 };
 
 class Home extends Component {
-  state= {
+  state = {
     mode: 0,
-  }
-  changeMode = (mode) => {
-    this.setState({mode});
+    runTime: [25,5],
   }
   goSprint = () => {
     this.setState({mode: 0});
@@ -44,7 +41,7 @@ class Home extends Component {
         </div>
         {/*flextimer container below*/}
         <div className={classes.sub1}>
-          <TimerBox sprintTime={sprintTime[this.state.mode]}/>
+          <TimerBox runTime={this.state.runTime[this.state.mode]}/>
         </div>
       </div>
     );
