@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
+import TimerBox from '../components/TimerBox'
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -7,10 +8,14 @@ const styles = {
   root: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     height: '100vh',
     width: '100%'
   },
+  sub1: {
+    display: 'flex',
+    justifyContent: 'center'
+  }
 };
 
 class Home extends Component {
@@ -18,7 +23,12 @@ class Home extends Component {
     const {classes} = this.props;
     return (
       <div className={classes.root}>
-        <Button variant="contained" color="primary">Hello World</Button>
+        <div className={classes.sub1}>
+          <Button variant="contained" color="primary">Sprint</Button>
+          <Button variant="contained" color="secondary">Break</Button>
+        </div>
+        {/*flextimer container below*/}
+        <TimerBox/>
       </div>
     );
   }
