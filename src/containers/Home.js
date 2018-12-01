@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Button from '@material-ui/core/Button';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -17,7 +18,7 @@ class Home extends Component {
     const {classes} = this.props;
     return (
       <div className={classes.root}>
-        Jay's Home
+
       </div>
     );
   }
