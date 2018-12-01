@@ -28,7 +28,9 @@ class Home extends Component {
           <Button variant="contained" color="secondary">Break</Button>
         </div>
         {/*flextimer container below*/}
-        <TimerBox/>
+        <div className={classes.sub1}>
+          <TimerBox/>
+        </div>
       </div>
     );
   }
