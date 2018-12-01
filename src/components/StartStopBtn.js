@@ -11,8 +11,6 @@ const styles = {
 
 class StartStopBtn extends Component {
   render() {
-    const {classes} = this.props;
-
     if (this.props.isRunning) {
       return (
         <div>

@@ -42,9 +42,10 @@ class TimerBox extends Component {
     //Initialize state
     runTime: this.props.runTime,
     startTime: 0,
-    isRunning: false,
+    runningState: "reset",
     currTime: Date.now(),
-    endTime:0,
+    endTime: 0,
+    pauseTime: 0,
   }
 
   addRunTime = () => {
@@ -54,10 +55,15 @@ class TimerBox extends Component {
   }
 
   startPauseTrigger = () => {
-    if (!this.state.isRunning){
-      this.startTime();
-    }else{
-      this.pauseTime();
+    switch(this.state.runningState){
+      case "reset":
+        this.startTime();
+        break;
+      case "pause":
+        this.continueTime();
+        break;
+      default:
+        this.pauseTime();
     }
   }
 
@@ -66,15 +72,33 @@ class TimerBox extends Component {
     this.setState({
       startTime: Date.now(),
       endTime: endTime,
-      isRunning: true,
+      runningState: "run",
+    })
+  }
+
+  continueTime = () => {
+    const endTime=this.state.endTime+(Date.now()-this.state.pauseTime);
+    this.setState({
+      runningState: "run",
+      pauseTime: 0,
+      endTime: endTime,
     })
   }
 
   pauseTime = () => {
     this.setState({
+      runningState: "pause",
+      pauseTime: Date.now(),
+    })
+  }
+
+  resetTime = () => {
+    this.setState({
       startTime: 0,
+      runningState: "reset",
+      currTime: Date.now(),
       endTime: 0,
-      isRunning: false,
+      pauseTime: 0,
     })
   }
 
@@ -98,7 +122,8 @@ class TimerBox extends Component {
 
   render() {
     const {classes} = this.props;
-    const elapsedTime = this.state.isRunning ? MillisecondsToHuman(this.state.endTime-Date.now()) : MillisecondsToHuman(this.state.runTime*60*1000);
+    const tdiff = this.state.runningState==="run" ? this.state.endTime-Date.now() : (this.state.runningState==="pause" ? this.state.endTime-this.state.pauseTime: this.state.runTime*60*1000);
+    const elapsedTime=MillisecondsToHuman(tdiff);
     return (
       <div className={classes.root}>
         <div className={classes.sub1}>
@@ -114,8 +139,8 @@ class TimerBox extends Component {
           <Typography variant="h1">{elapsedTime}</Typography>
         </div>
         <div className={classes.sub1}>
-          <StartStopBtn isRunning={this.state.isRunning} aw="awd" onClick={this.startPauseTrigger} />
-          <Button variant="contained">Reset</Button>
+          <StartStopBtn isRunning={this.state.runningState==="run"} aw="awd" onClick={this.startPauseTrigger} />
+          <Button variant="contained" onClick={this.resetTime}>Reset</Button>
         </div>
       </div>
     );
