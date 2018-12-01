@@ -53,11 +53,11 @@ class TimerBox extends Component {
     })
   }
 
-  startEndTrigger = () => {
+  startPauseTrigger = () => {
     if (!this.state.isRunning){
       this.startTime();
     }else{
-      this.endTime();
+      this.pauseTime();
     }
   }
 
@@ -70,7 +70,7 @@ class TimerBox extends Component {
     })
   }
 
-  endTime = () => {
+  pauseTime = () => {
     this.setState({
       startTime: 0,
       endTime: 0,
@@ -114,8 +114,7 @@ class TimerBox extends Component {
           <Typography variant="h1">{elapsedTime}</Typography>
         </div>
         <div className={classes.sub1}>
-          {this.state.isRunning && "hello"}
-          <StartStopBtn isRunning={this.state.isRunning} onClick={this.startEndTrigger} />
+          <StartStopBtn isRunning={this.state.isRunning} aw="awd" onClick={this.startPauseTrigger} />
           <Button variant="contained">Reset</Button>
         </div>
       </div>

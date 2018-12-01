@@ -12,10 +12,11 @@ const styles = {
 class StartStopBtn extends Component {
   render() {
     const {classes} = this.props;
-    if (classes.isRunning) {
+
+    if (this.props.isRunning) {
       return (
         <div>
-            <Button variant="contained" color="secondary"  onClick={this.props.onClick}>Stop</Button>
+            <Button variant="contained" color="secondary"  onClick={this.props.onClick}>Pause</Button>
         </div>
       );
     } else {
