@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import StartStopBtn from './StartStopBtn'
+
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add'
 import MinusIcon from '@material-ui/icons/Remove'
@@ -24,6 +26,9 @@ const styles = theme => ({
 });
 
 class TimerBox extends Component {
+  state = {
+    sprintTime: this.props.sprintTime,
+  }
   render() {
     const {classes} = this.props;
     return (
@@ -41,7 +46,7 @@ class TimerBox extends Component {
           <Typography variant="h1">25:00</Typography>
         </div>
         <div className={classes.sub1}>
-          <Button variant="contained">Start</Button>
+          <StartStopBtn isRunning={true}/>
           <Button variant="contained">Reset</Button>
         </div>
       </div>

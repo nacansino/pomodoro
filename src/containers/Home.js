@@ -4,6 +4,8 @@ import TimerBox from '../components/TimerBox'
 
 import { withStyles } from '@material-ui/core/styles';
 
+const sprintTime=[25,5];
+
 const styles = {
   root: {
     display: 'flex',
@@ -19,17 +21,30 @@ const styles = {
 };
 
 class Home extends Component {
+  state= {
+    mode: 0,
+  }
+  changeMode = (mode) => {
+    this.setState({mode});
+  }
+  goSprint = () => {
+    this.setState({mode: 0});
+  }
+  goBreak = () => {
+    this.setState({mode: 1});
+  }
+
   render() {
     const {classes} = this.props;
     return (
       <div className={classes.root}>
         <div className={classes.sub1}>
-          <Button variant="contained" color="primary">Sprint</Button>
-          <Button variant="contained" color="secondary">Break</Button>
+          <Button variant="contained" disabled={this.state.mode===0} onClick={this.goSprint} color="primary">Sprint</Button>
+          <Button variant="contained" disabled={this.state.mode===1} onClick={this.goBreak} color="secondary">Break</Button>
         </div>
         {/*flextimer container below*/}
         <div className={classes.sub1}>
-          <TimerBox/>
+          <TimerBox sprintTime={sprintTime[this.state.mode]}/>
         </div>
       </div>
     );
