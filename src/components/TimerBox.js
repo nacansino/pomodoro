@@ -44,7 +44,7 @@ class TimerBox extends Component {
     startTime: 0,
     isRunning: false,
     currTime: Date.now(),
-    endTime: this.props.runTime,
+    endTime:0,
   }
 
   addRunTime = () => {
@@ -71,7 +71,11 @@ class TimerBox extends Component {
   }
 
   endTime = () => {
-
+    this.setState({
+      startTime: 0,
+      endTime: 0,
+      isRunning: false,
+    })
   }
 
   subRunTime = () => {
@@ -94,7 +98,7 @@ class TimerBox extends Component {
 
   render() {
     const {classes} = this.props;
-    const elapsedTime = MillisecondsToHuman(this.state.endTime-Date.now());
+    const elapsedTime = this.state.isRunning ? MillisecondsToHuman(this.state.endTime-Date.now()) : MillisecondsToHuman(this.state.runTime*60*1000);
     return (
       <div className={classes.root}>
         <div className={classes.sub1}>
@@ -110,6 +114,7 @@ class TimerBox extends Component {
           <Typography variant="h1">{elapsedTime}</Typography>
         </div>
         <div className={classes.sub1}>
+          {this.state.isRunning && "hello"}
           <StartStopBtn isRunning={this.state.isRunning} onClick={this.startEndTrigger} />
           <Button variant="contained">Reset</Button>
         </div>
