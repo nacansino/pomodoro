@@ -31,7 +31,7 @@ const styles = theme => ({
 
 class TimerBox extends Component {
   componentDidMount() {
-    this.forceUpdateInterval = setInterval(() => this.getElapsedTime(), 50);
+    this.forceUpdateInterval = setInterval(() => this.getElapsedTime(), 41);
   }
 
   componentWillUnmount() {
@@ -40,7 +40,15 @@ class TimerBox extends Component {
 
   static getDerivedStateFromProps(props,state) {
     if (props.runTime !== state.runTime) {
-      return { runTime: props.runTime };
+      return {
+        runTime: props.runTime,
+        startTime: 0,
+        runningState: "reset",
+        currTime: Date.now(),
+        endTime: 0,
+        pauseTime: 0,
+        elapsedTime: 0,
+      };
     }
   }
 
@@ -59,7 +67,7 @@ class TimerBox extends Component {
     this.props.onChangeRunTime(this.state.runTime+timeInc);
     this.setState({
       runTime: this.state.runTime + timeInc
-    })
+    });
   }
 
   subRunTime = () => {
