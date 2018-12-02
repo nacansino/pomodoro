@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add'
 import MinusIcon from '@material-ui/icons/Remove'
 import Typography from '@material-ui/core/Typography';
-import { MillisecondsToHuman } from '../assets/helpers'
+import { MsToHuman } from '../assets/helpers'
 import { GetEndTime } from '../assets/helpers'
 
 import { withStyles } from '@material-ui/core/styles';
@@ -125,27 +125,29 @@ class TimerBox extends Component {
   }
 
   getElapsedTime = () => {
+    let elapsedTime, rTime;
     switch(this.state.runningState){
       case "reset":
-        this.setState({elapsedTime: MillisecondsToHuman(this.state.runTime*60*1000+60)});
+        elapsedTime = MsToHuman(this.state.runTime*60*1000);
         break;
       case "pause":
-        this.setState({elapsedTime: MillisecondsToHuman(this.state.endTime-this.state.pauseTime)});
+        elapsedTime = MsToHuman(this.state.endTime-this.state.pauseTime);
         break;
       case "timesup":
-        this.setState({elapsedTime: MillisecondsToHuman(0)});
+        elapsedTime = MsToHuman(0);
         break;
       default: //"run" or "timesup"
-        const elapsedTime=this.state.endTime-Date.now();
-        if (elapsedTime <= 0){
+        rTime=this.state.endTime-Date.now();
+        if (rTime <= 0){ //change state on the last second
           this.setState({
-            elapsedTime: MillisecondsToHuman(0),
             runningState: "timesup",
           });
+          return;
         } else {
-          this.setState({elapsedTime: MillisecondsToHuman(elapsedTime)});
+          elapsedTime = MsToHuman(rTime);
         }
     }
+    this.setState({elapsedTime: elapsedTime});
   }
 
   render() {

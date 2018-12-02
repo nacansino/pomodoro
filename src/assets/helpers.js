@@ -1,5 +1,6 @@
-export function MillisecondsToHuman(ms) {
+export function MsToHuman(ms) {
   //No Hours
+  const centiseconds = Math.floor((ms / 10) % 100);
   const seconds = Math.floor((ms / 1000) % 60);
   const minutes = Math.floor((ms / 1000 / 60) % 60);
   //const hours = Math.floor(ms / 1000 / 60 / 60);
@@ -8,6 +9,7 @@ export function MillisecondsToHuman(ms) {
     //pad(hours.toString(), 2),
     pad(minutes.toString(), 2),
     pad(seconds.toString(), 2),
+    pad(centiseconds.toString(), 2),
   ].join(':');
 
   return humanized;
@@ -18,13 +20,6 @@ export function GetEndTime(runTime, startTime) {
 
   return msToAdd + startTime;
 }
-  export function renderElapsedString(elapsed, runningSince) {
-    let totalElapsed = elapsed;
-    if (runningSince) {
-      totalElapsed += Date.now() - runningSince;
-    }
-    return MillisecondsToHuman(totalElapsed);
-  }
 
   function pad(numberString, size) {
     let padded = numberString;
