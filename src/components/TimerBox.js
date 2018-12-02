@@ -136,9 +136,9 @@ class TimerBox extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.runTime !== this.state.runTime) {
-      this.setState({ runTime: nextProps.runTime });
+  static getDerivedStateFromProps(props,state) {
+    if (props.runTime !== state.runTime) {
+      return { runTime: props.runTime };
     }
   }
 
