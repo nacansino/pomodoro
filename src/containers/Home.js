@@ -22,7 +22,7 @@ const styles = {
 class Home extends Component {
   state = {
     mode: 0,
-    runTime: [25,5],
+    runTime: [0.1,5],
   }
 
   goSprint = () => {
@@ -33,8 +33,11 @@ class Home extends Component {
     this.setState({mode: 1});
   }
 
-  changeRunTime = () => {
-    
+  changeRunTime = (newRunTime) => {
+    const mode = this.state.mode;
+    var runTime = this.state.runTime;
+    runTime[mode] = newRunTime;
+    this.setState({runTime: runTime})
   }
 
   render() {

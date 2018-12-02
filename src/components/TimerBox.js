@@ -46,10 +46,10 @@ class TimerBox extends Component {
     currTime: Date.now(),
     endTime: 0,
     pauseTime: 0,
-    timesUp: false,
   }
 
   addRunTime = () => {
+    this.props.onChangeRunTime(this.state.runTime+timeInc);
     this.setState({
       runTime: this.state.runTime + timeInc
     })
@@ -58,10 +58,12 @@ class TimerBox extends Component {
   subRunTime = () => {
     const runTime = this.state.runTime - timeInc
     if (runTime>0){
+      this.props.onChangeRunTime(runTime);
       this.setState({
         runTime: runTime
       })
     } else {
+      this.props.onChangeRunTime(timeInc);
       this.setState({runTime: timeInc});
     }
 
@@ -112,7 +114,6 @@ class TimerBox extends Component {
       currTime: Date.now(),
       endTime: 0,
       pauseTime: 0,
-      timesUp: false,
     })
   }
 
@@ -122,14 +123,16 @@ class TimerBox extends Component {
         return MillisecondsToHuman(this.state.runTime*60*1000);
       case "pause":
         return MillisecondsToHuman(this.state.endTime-this.state.pauseTime);
-      default://"run"
+      case "run":
         const elapsedTime=this.state.endTime-Date.now();
-        if (elapsedTime === 0){
-          this.setState({timesUp: true})
+        if (elapsedTime <= 0){
+          this.setState({runningState: "timesup"})
           return MillisecondsToHuman(0);
         } else {
           return MillisecondsToHuman(elapsedTime);
         }
+      default: //"timesup"
+        return MillisecondsToHuman(0);
     }
   }
 
@@ -157,7 +160,7 @@ class TimerBox extends Component {
           <Typography variant="h1">{elapsedTime}</Typography>
         </div>
         <div className={classes.sub1}>
-          <StartStopBtn isRunning={this.state.runningState==="run"} aw="awd" onClick={this.startPauseTrigger} />
+          <StartStopBtn runningState={this.state.runningState} onClick={this.startPauseTrigger} />
           <Button variant="contained" onClick={this.resetTime}>Reset</Button>
         </div>
       </div>
