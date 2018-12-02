@@ -31,11 +31,17 @@ const styles = theme => ({
 
 class TimerBox extends Component {
   componentDidMount() {
-    this.forceUpdateInterval = setInterval(() => this.forceUpdate(), 50);
+    this.forceUpdateInterval = setInterval(() => this.getElapsedTime(), 50);
   }
 
   componentWillUnmount() {
     clearInterval(this.forceUpdateInterval);
+  }
+
+  static getDerivedStateFromProps(props,state) {
+    if (props.runTime !== state.runTime) {
+      return { runTime: props.runTime };
+    }
   }
 
   state = {
@@ -46,6 +52,7 @@ class TimerBox extends Component {
     currTime: Date.now(),
     endTime: 0,
     pauseTime: 0,
+    elapsedTime: 0,
   }
 
   addRunTime = () => {
@@ -120,31 +127,29 @@ class TimerBox extends Component {
   getElapsedTime = () => {
     switch(this.state.runningState){
       case "reset":
-        return MillisecondsToHuman(this.state.runTime*60*1000);
+        this.setState({elapsedTime: MillisecondsToHuman(this.state.runTime*60*1000+60)});
+        break;
       case "pause":
-        return MillisecondsToHuman(this.state.endTime-this.state.pauseTime);
-      case "run":
+        this.setState({elapsedTime: MillisecondsToHuman(this.state.endTime-this.state.pauseTime)});
+        break;
+      case "timesup":
+        this.setState({elapsedTime: MillisecondsToHuman(0)});
+        break;
+      default: //"run" or "timesup"
         const elapsedTime=this.state.endTime-Date.now();
         if (elapsedTime <= 0){
-          this.setState({runningState: "timesup"})
-          return MillisecondsToHuman(0);
+          this.setState({
+            elapsedTime: MillisecondsToHuman(0),
+            runningState: "timesup",
+          });
         } else {
-          return MillisecondsToHuman(elapsedTime);
+          this.setState({elapsedTime: MillisecondsToHuman(elapsedTime)});
         }
-      default: //"timesup"
-        return MillisecondsToHuman(0);
-    }
-  }
-
-  static getDerivedStateFromProps(props,state) {
-    if (props.runTime !== state.runTime) {
-      return { runTime: props.runTime };
     }
   }
 
   render() {
     const {classes} = this.props;
-    const elapsedTime=this.getElapsedTime();
     return (
       <div className={classes.root}>
         <div className={classes.sub1}>
@@ -157,7 +162,7 @@ class TimerBox extends Component {
           </Button>
         </div>
         <div className={classes.sub1}>
-          <Typography variant="h1">{elapsedTime}</Typography>
+          <Typography variant="h1">{this.state.elapsedTime}</Typography>
         </div>
         <div className={classes.sub1}>
           <StartStopBtn runningState={this.state.runningState} onClick={this.startPauseTrigger} />
