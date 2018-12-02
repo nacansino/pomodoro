@@ -22,7 +22,7 @@ const styles = {
 class Home extends Component {
   state = {
     mode: 0,
-    runTime: [0.1,5],
+    runTime: [25,5],
   }
 
   goSprint = () => {
