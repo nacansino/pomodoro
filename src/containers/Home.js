@@ -24,11 +24,17 @@ class Home extends Component {
     mode: 0,
     runTime: [25,5],
   }
+
   goSprint = () => {
     this.setState({mode: 0});
   }
+
   goBreak = () => {
     this.setState({mode: 1});
+  }
+
+  changeRunTime = () => {
+    
   }
 
   render() {
@@ -41,7 +47,7 @@ class Home extends Component {
         </div>
         {/*flextimer container below*/}
         <div className={classes.sub1}>
-          <TimerBox runTime={this.state.runTime[this.state.mode]}/>
+          <TimerBox runTime={this.state.runTime[this.state.mode]} onChangeRunTime={this.changeRunTime}/>
         </div>
       </div>
     );

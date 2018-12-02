@@ -46,12 +46,25 @@ class TimerBox extends Component {
     currTime: Date.now(),
     endTime: 0,
     pauseTime: 0,
+    timesUp: false,
   }
 
   addRunTime = () => {
     this.setState({
       runTime: this.state.runTime + timeInc
     })
+  }
+
+  subRunTime = () => {
+    const runTime = this.state.runTime - timeInc
+    if (runTime>0){
+      this.setState({
+        runTime: runTime
+      })
+    } else {
+      this.setState({runTime: timeInc});
+    }
+
   }
 
   startPauseTrigger = () => {
@@ -99,19 +112,25 @@ class TimerBox extends Component {
       currTime: Date.now(),
       endTime: 0,
       pauseTime: 0,
+      timesUp: false,
     })
   }
 
-  subRunTime = () => {
-    const runTime = this.state.runTime - timeInc
-    if (runTime>0){
-      this.setState({
-        runTime: runTime
-      })
-    } else {
-      this.setState({runTime: timeInc});
+  getElapsedTime = () => {
+    switch(this.state.runningState){
+      case "reset":
+        return MillisecondsToHuman(this.state.runTime*60*1000);
+      case "pause":
+        return MillisecondsToHuman(this.state.endTime-this.state.pauseTime);
+      default://"run"
+        const elapsedTime=this.state.endTime-Date.now();
+        if (elapsedTime === 0){
+          this.setState({timesUp: true})
+          return MillisecondsToHuman(0);
+        } else {
+          return MillisecondsToHuman(elapsedTime);
+        }
     }
-
   }
 
   componentWillReceiveProps(nextProps) {
@@ -122,8 +141,7 @@ class TimerBox extends Component {
 
   render() {
     const {classes} = this.props;
-    const tdiff = this.state.runningState==="run" ? this.state.endTime-Date.now() : (this.state.runningState==="pause" ? this.state.endTime-this.state.pauseTime: this.state.runTime*60*1000);
-    const elapsedTime=MillisecondsToHuman(tdiff);
+    const elapsedTime=this.getElapsedTime();
     return (
       <div className={classes.root}>
         <div className={classes.sub1}>
