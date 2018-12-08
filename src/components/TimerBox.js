@@ -49,6 +49,8 @@ class TimerBox extends Component {
         pauseTime: 0,
         elapsedTime: 0,
       };
+    }else{
+      return null;
     }
   }
 
