@@ -1,3 +1,3 @@
 ## POMODORO
 
-This is a Pomodoro timer app using React app.
+This is a Pomodoro timer app made using React app.
